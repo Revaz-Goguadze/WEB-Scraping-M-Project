@@ -1,7 +1,15 @@
 """
 gui.py
-Modified GUI
-Simple Tkinter GUI to display scraped book data with matplotlib charts.
+Improved GUI for viewing scraped book data with matplotlib charts.
+
+Enhancements:
+- Added menu bar (with Refresh Data, About, and Quit)
+- Improved summary section formatting
+- Added scrollbar to book list
+- Ensured price formatting with currency symbol
+- Added keyboard shortcut (Ctrl+Q to quit)
+- Added inline comments, clearer tab/window names, better code organization
+- Improved error handling for empty data/chart edge case
 """
 
 import tkinter as tk
@@ -12,87 +20,156 @@ import json
 from utils.analyzer import count_books_per_category, average_price_per_category, get_unavailable_books
 from models.data_models import Book
 
-
 class ScraperGUI(tk.Tk):
+    """
+    Main window for the book scraper data viewer.
+    Enhanced for usability, accessibility, and code clarity.
+    """
     def __init__(self, json_path="data/books.json"):
         super().__init__()
-        self.title("Book Scraper Data Viewer")
-        self.geometry("800x600")
+        self.title("Book Scraper Data Viewer (Improved)")
+        self.geometry("850x630")
         self.books = self.load_books(json_path)
+        self.json_path = json_path
 
+        self.create_menu()
         self.create_widgets()
         self.create_charts()
 
+        self.bind_all("<Control-q>", lambda e: self.quit())  # Ctrl+Q to quit
+
     def load_books(self, json_path):
+        """
+        Load book data from json_path into Book objects.
+        """
         try:
             with open(json_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            return [Book(**item) for item in data]
+            return sorted([Book(**item) for item in data], key=lambda b: b.title)
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load data: {e}")
             return []
 
+    def create_menu(self):
+        """
+        Add a menu bar with refresh and about options.
+        """
+        menubar = tk.Menu(self)
+        file_menu = tk.Menu(menubar, tearoff=0)
+        file_menu.add_command(label="Refresh Data", command=self.refresh_data, accelerator="Ctrl+R")
+        file_menu.add_command(label="Quit", command=self.quit, accelerator="Ctrl+Q")
+        menubar.add_cascade(label="File", menu=file_menu)
+
+        help_menu = tk.Menu(menubar, tearoff=0)
+        help_menu.add_command(label="About", command=self.show_about)
+        menubar.add_cascade(label="Help", menu=help_menu)
+
+        self.config(menu=menubar)
+        self.bind_all("<Control-r>", lambda e: self.refresh_data())
+
+    def refresh_data(self):
+        """
+        Reload book data and refresh widgets/charts.
+        """
+        self.books = self.load_books(self.json_path)
+        for child in self.winfo_children():
+            if isinstance(child, ttk.Notebook):
+                child.destroy()
+        self.create_widgets()
+        self.create_charts()
+
+    def show_about(self):
+        """
+        Show an about dialog.
+        """
+        messagebox.showinfo("About", "Book Scraper Data Viewer\nImproved version\nGUI built with Tkinter and matplotlib.")
+
     def create_widgets(self):
+        """
+        Construct GUI widgets (tabs, lists, summary, charts).
+        """
         tabs = ttk.Notebook(self)
         tabs.pack(fill=tk.BOTH, expand=1)
 
         tab1 = ttk.Frame(tabs)
         tab2 = ttk.Frame(tabs)
-        tabs.add(tab1, text="Books")
-        tabs.add(tab2, text="Charts")
+        tabs.add(tab1, text="Book List")
+        tabs.add(tab2, text="Visual Charts")
 
-        # Book list
+        # Book list with scrollbar
         columns = ("Title", "Price", "Category", "Availability")
-        tree = ttk.Treeview(tab1, columns=columns, show="headings")
+        tree_frame = ttk.Frame(tab1)
+        tree_frame.pack(fill=tk.BOTH, expand=1)
+        tree_scroll = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL)
+        tree = ttk.Treeview(tree_frame, columns=columns, show="headings", yscrollcommand=tree_scroll.set)
+        tree_scroll.config(command=tree.yview)
+        tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+
         for col in columns:
             tree.heading(col, text=col)
             tree.column(col, anchor="center")
-        for book in self.books:
-            tree.insert("", tk.END, values=(book.title, book.price, book.category, book.availability))
-        tree.pack(fill=tk.BOTH, expand=1)
 
-        # Text summaries
-        summary = tk.Text(tab1, height=8)
-        summary.pack(fill=tk.X)
-        summary.insert(tk.END, "Category Counts:\n")
+        for book in self.books:
+            tree.insert("", tk.END, values=(
+                book.title,
+                f"£{book.price:.2f}",
+                book.category,
+                book.availability
+            ))
+
+        # Text summaries with bold headers
+        summary = tk.Text(tab1, height=10, font=('TkDefaultFont', 10))
+        summary.pack(fill=tk.X, pady=(4, 2))
+        summary.insert(tk.END, "== Category Counts ==\n")
         for k, v in count_books_per_category(self.books).items():
-            summary.insert(tk.END, f"{k}: {v}\n")
-        summary.insert(tk.END, "\nAverage Price per Category:\n")
+            summary.insert(tk.END, f"  {k}: {v}\n")
+        summary.insert(tk.END, "\n== Average Price per Category ==\n")
         for k, v in average_price_per_category(self.books).items():
-            summary.insert(tk.END, f"{k}: £{v:.2f}\n")
-        summary.insert(tk.END, "\nUnavailable Books:\n")
-        for book in get_unavailable_books(self.books):
-            summary.insert(tk.END, f"{book.title}\n")
+            summary.insert(tk.END, f"  {k}: £{v:.2f}\n")
+        summary.insert(tk.END, "\n== Unavailable Books ==\n")
+        unavailable = list(get_unavailable_books(self.books))
+        if unavailable:
+            for book in unavailable:
+                summary.insert(tk.END, f"  {book.title}\n")
+        else:
+            summary.insert(tk.END, "  (None)\n")
 
         summary.configure(state=tk.DISABLED)
 
-        # Charts tab placeholder - filled in next method
+        # Charts tab placeholder - chart frame
         self.chart_frame = ttk.Frame(tab2)
         self.chart_frame.pack(fill=tk.BOTH, expand=1)
 
     def create_charts(self):
+        """
+        Render bar charts for book counts and price averages.
+        """
+        if not self.books:
+            lbl = ttk.Label(self.chart_frame, text="No book data available for charts.", foreground="red")
+            lbl.pack(pady=30)
+            return
+
         counts = count_books_per_category(self.books)
         prices = average_price_per_category(self.books)
 
-        fig, axs = plt.subplots(1, 2, figsize=(8, 4))
-        fig.suptitle("Scraped Book Data Summary")
+        fig, axs = plt.subplots(1, 2, figsize=(9, 4))
+        fig.suptitle("Scraped Book Data Summary", fontsize=14)
 
         # Book count per category
-        axs[0].bar(counts.keys(), counts.values(), color="skyblue")
+        axs[0].bar(list(counts.keys()), list(counts.values()), color="skyblue")
         axs[0].set_title("Books per Category")
-        axs[0].set_xticklabels(counts.keys(), rotation=45, ha='right')
+        axs[0].set_xticklabels(list(counts.keys()), rotation=45, ha='right')
 
         # Average price per category
-        axs[1].bar(prices.keys(), prices.values(), color="orange")
+        axs[1].bar(list(prices.keys()), list(prices.values()), color="orange")
         axs[1].set_title("Average Price (£)")
-        axs[1].set_xticklabels(prices.keys(), rotation=45, ha='right')
+        axs[1].set_xticklabels(list(prices.keys()), rotation=45, ha='right')
 
         plt.tight_layout()
-
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=1)
-
 
 if __name__ == "__main__":
     app = ScraperGUI()
