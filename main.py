@@ -87,13 +87,32 @@ def sync_scrape():
     category_name = parser.get_category_name() or "Unknown"
 
     books = []
+    from urllib.parse import urljoin, urlparse
+
     for title, price, url, availability in zip(titles, prices, urls, availability_list):
+        # Ensure correct resolution of relative links (may have '../')
+        # urljoin will handle '../', but path for fetch must not start with '/'
+        detail_url = urljoin(base_url, url)
+        parsed = urlparse(detail_url)
+        fetch_path = parsed.path.lstrip('/')  # collector.fetch expects no leading slash
+
+        print(f"[DEBUG] Book: {title} | href: {url} | detail_url: {detail_url} | fetch_path: {fetch_path}")
+
+        try:
+            detail_html = collector.fetch(fetch_path)
+        except Exception as e:
+            print(f"Failed to fetch detail page for {title} at {detail_url}: {e}")
+            category = "Unknown"
+        else:
+            detail_parser = Parser(detail_html)
+            category = detail_parser.get_category_name() or "Unknown"
+            print(f"[DEBUG] Category for {title}: {category}")
         book = Book(
             title=title,
             price=price,
-            url=url,
+            url=detail_url,
             availability=availability,
-            category=category_name
+            category=category
         )
         books.append(book)
 
