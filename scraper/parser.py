@@ -77,12 +77,15 @@ class Parser:
 
     def get_category_name(self) -> Optional[str]:
         """
-        Extracts category name by navigating breadcrumbs navigation.
+        Extracts book category from breadcrumb navigation.
+        For path like "Home > Books > Poetry > Title",
+        returns "Poetry" (second-to-last item).
 
         Returns:
-            Optional[str]: Category name or None.
+            Optional[str]: Category name or None if not found.
         """
-        breadcrumb = self.soup.select_one(".breadcrumb li.active")
-        if breadcrumb:
-            return breadcrumb.text.strip()
-        return None
+        breadcrumb_items = self.soup.select(".breadcrumb li")
+        if len(breadcrumb_items) >= 3:  # Need at least: Home > Category > Title
+            category_item = breadcrumb_items[-2]  # Second to last item
+            return category_item.text.strip()
+        return "All products"  # Fallback for malformed breadcrumbs
