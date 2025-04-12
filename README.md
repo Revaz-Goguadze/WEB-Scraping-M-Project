@@ -50,25 +50,35 @@ python3 -m unittest discover -s tests
 ## Project Structure
 
 ```
-main.py
-gui.py
-scraper/
-  collector.py
-  async_collector.py
-  parser.py
-models/
-  data_models.py
-utils/
-  file_handler.py
-  analyzer.py
-tests/
-  test_scraper.py
-data/
-  books.json, books.csv
-requirements.txt
-README.md
-REPORT.md
-CONTRIBUTIONS.md
+.
+├── .gitignore                 # Specifies intentionally untracked files that Git should ignore
+├── CONTRIBUTIONS.md           # Contribution guidelines
+├── LICENSE                    # Project license file
+├── README.md                  # This file
+├── REPORT.md                  # Project report document
+├── gui.py                     # Main script for the Tkinter GUI data viewer
+├── main.py                    # Main script to run the scraper (sync/async)
+├── requirements.txt           # Python package dependencies
+├── robots.txt                 # Standard for web crawlers (example/template)
+├── scraper_workflow.md        # Detailed description of the scraping workflow
+├── webscraper-sequence-diagram.png # Visual diagram of the workflow
+├── data/                      # Directory for storing output data
+│   ├── books.csv              # Scraped book data in CSV format
+│   └── books.json             # Scraped book data in JSON format
+├── models/                    # Contains data model definitions
+│   ├── __init__.py            # Makes 'models' a Python package
+│   └── data_models.py         # Defines the Book data structure
+├── scraper/                   # Core scraping logic
+│   ├── __init__.py            # Makes 'scraper' a Python package
+│   ├── async_collector.py     # Asynchronous data collection logic (aiohttp)
+│   ├── collector.py           # Synchronous data collection logic (requests)
+│   └── parser.py              # HTML parsing logic (BeautifulSoup)
+├── tests/                     # Unit and integration tests
+│   └── test_scraper.py        # Tests for the scraper module
+└── utils/                     # Utility functions and classes
+    ├── __init__.py            # Makes 'utils' a Python package
+    ├── analyzer.py            # Data analysis functions
+    └── file_handler.py        # Functions for reading/writing data files
 ```
 
 ## Dependencies
@@ -113,4 +123,3 @@ The following sequence diagram illustrates the interaction between the different
 5.  **Logging:** The `Logger` participant represents Python's logging module, recording key steps, decisions, and errors throughout the process for debugging and monitoring.
 
 <img src="webscraper-sequence-diagram.png" alt="Web Scraper Sequence Diagram" width="800">
-
