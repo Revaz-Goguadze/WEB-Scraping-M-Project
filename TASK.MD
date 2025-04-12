@@ -56,35 +56,35 @@ website, processes the information, saves it to files, and performs basic analys
 data.
 2 Project Requirements
 2.1 Data Collection (5 points)
-• Create a scraper that targets a publicly accessible website (options provided below)
-• Implement proper HTTP requests with appropriate headers
-• Handle potential request errors and exceptions
-• Implement rate limiting to prevent overwhelming the target website
-• Document the website’s robots.txt policies and ensure compliance
+• Create a scraper that targets a publicly accessible website (options provided below) X
+• Implement proper HTTP requests with appropriate headers X
+• Handle potential request errors and exceptions X
+• Implement rate limiting to prevent overwhelming the target website X
+• Document the website’s robots.txt policies and ensure compliance X
 2.2 Data Parsing (5 points)
-• Use BeautifulSoup4 to parse the HTML content
-• Implement at least three different selection methods to extract data
-• Navigate the DOM tree to extract nested information
-• Extract at least four different types of data (text, links, attributes, etc.)
-• Implement error handling for missing elements
+• Use BeautifulSoup4 to parse the HTML content X
+• Implement at least three different selection methods to extract data X
+• Navigate the DOM tree to extract nested information X
+• Extract at least four different types of data (text, links, attributes, etc.) X
+• Implement error handling for missing elements X
 2.3 Object-Oriented Design (4 points)
-• Create at least two classes that model the data being collected
-• Implement appropriate constructors, properties, and methods
-• Follow proper OOP principles (encapsulation, abstraction)
-• Include appropriate documentation (docstrings, comments)
+• Create at least two classes that model the data being collected X
+• Implement appropriate constructors, properties, and methods X
+• Follow proper OOP principles (encapsulation, abstraction) X
+• Include appropriate documentation (docstrings, comments) X
 3
 Python Web Scraping Midterm Project
 2.4 Data Storage & Processing (3 points)
-• Save the collected data to files (CSV, JSON, or both)
-• Implement file operation error handling
-• Create a function to load and process the saved data
-• Perform at least two types of analysis or transformations on the data
+• Save the collected data to files (CSV, JSON, or both) X
+• Implement file operation error handling X
+• Create a function to load and process the saved data X
+• Perform at least two types of analysis or transformations on the data X
 2.5 Project Structure & Documentation (3 points)
-• Organize code into appropriate modules
-• Include a requirements.txt file
-• Write a comprehensive README.md with setup and usage instructions
-• Include comments explaining complex code sections
-• Document any limitations or potential improvements
+• Organize code into appropriate modules X
+• Include a requirements.txt file X
+• Write a comprehensive README.md with setup and usage instructions X
+• Include comments explaining complex code sections X
+• Document any limitations or potential improvements X
 3 Recommended Websites for Scraping
 The following are suggestions for websites that explicitly allow scraping or have public APIs.
 Students are encouraged to explore other options or propose different websites that better suit
@@ -99,33 +99,33 @@ Note: Always check the website’s Terms of Service and robots.txt before scrapi
 choose a different website, get instructor approval first to ensure it’s appropriate for the
 project.
 4 Collaboration Requirements
-• Work in groups of 2-3 students
-• Create a shared GitHub repository for your project
-• Use GitHub features (Issues, Pull Requests, Projects) to manage your work
-• Each team member must make meaningful contributions (visible in commit history)
-• Maintain a CONTRIBUTIONS.md file documenting each member’s specific contributions
-• All team members will receive the same grade unless there is clear evidence of unequal participation
+• Work in groups of 2-3 students X
+• Create a shared GitHub repository for your project X
+• Use GitHub features (Issues, Pull Requests, Projects) to manage your work X
+• Each team member must make meaningful contributions (visible in commit history) X
+• Maintain a CONTRIBUTIONS.md file documenting each member’s specific contributions X
+• All team members will receive the same grade unless there is clear evidence of unequal participation X
 4
 Python Web Scraping Midterm Project
 5 Deliverables
-1. Complete Python project with all required files in a GitHub repository
-2. CSV and/or JSON output files containing scraped data
-3. README.md file with comprehensive documentation
-4. CONTRIBUTIONS.md file detailing each team member’s contributions
+1. Complete Python project with all required files in a GitHub repository X
+2. CSV and/or JSON output files containing scraped data X
+3. README.md file with comprehensive documentation X
+4. CONTRIBUTIONS.md file detailing each team member’s contributions X
 5. A brief report (500-700 words) describing:
-• The website chosen and why
-• Implementation challenges and solutions
-• Analysis of the collected data
-• Potential improvements or extensions
-6. Evidence of using GitHub features (Issues, Pull Requests, etc.)
-7. Tagged release for midterm submission (”midterm-submission”)
+• The website chosen and why X
+• Implementation challenges and solutions X
+• Analysis of the collected data X
+• Potential improvements or extensions X
+6. Evidence of using GitHub features (Issues, Pull Requests, etc.) X
+7. Tagged release for midterm submission (”midterm-submission”) X
 6 Submission Instructions
 • Submit the URL of your GitHub repository via the course Teams channel by 10-11th of April,
 2025
 • Ensure the repository is public or shared with the instructor’s GitHub account
-• Tag the midterm submission in your repository with the tag ”midterm-submission”
-• Include a README.md with setup instructions and project description
-• Ensure all dependencies are listed in requirements.txt
+• Tag the midterm submission in your repository with the tag ”midterm-submission” X
+• Include a README.md with setup instructions and project description X
+• Ensure all dependencies are listed in requirements.txt X
 5
 Python Web Scraping Midterm Project
 7 Grading Criteria
@@ -212,66 +212,80 @@ Python Web Scraping Midterm Project
 1. Create a new public GitHub repository with a descriptive name related to your project
 2. Add all team members as collaborators with appropriate permissions
 3. Initialize with a README.md, .gitignore, and LICENSE file
-• Use the Python .gitignore template
+• Use the Python .gitignore template X
 • Choose an appropriate open-source license (MIT recommended)
 11.1.2 Branch Structure
-1. Main Branch (main)
-• Should always contain stable, working code
-• Protected from direct pushes (use Pull Requests)
-2. Development Branch (dev)
-• Primary branch for development
-• Merge to main only when features are complete and tested
-3. Feature Branches
-• Create branches for individual features or components
-• Name format: feature/feature-name or feature/github-username/feature-name
+1. Main Branch (main) X
+• Should always contain stable, working code X
+• Protected from direct pushes (use Pull Requests) X
+2. Development Branch (dev) X
+• Primary branch for development X
+• Merge to main only when features are complete and tested X
+3. Feature Branches X
+• Create branches for individual features or components X
+• Name format: feature/feature-name or feature/github-username/feature-name X
 11.2 Required GitHub Features to Use
 11.2.1 Issue Tracking
 1. Create issues for all features and tasks
-• Use descriptive titles
-• Include acceptance criteria
-• Assign to specific team members
-• Add appropriate labels
+• Use descriptive titles X
+• Include acceptance criteria X
+• Assign to specific team members X
+• Add appropriate labels X
 2. Use GitHub Project board to organize issues
-• Set up columns for: To Do, In Progress, Review, Done
-• Track progress visually
+• Set up columns for: To Do, In Progress, Review, Done X
+• Track progress visually X
 8
 Python Web Scraping Midterm Project
 11.2.2 Pull Requests
 1. Create Pull Requests for all code changes
-• Link to related issues
-• Provide detailed descriptions
-• Request reviews from team members
+• Link to related issues X
+• Provide detailed descriptions X
+• Request reviews from team members X
 2. Code Review Process
-• At least one review required before merging
-• Address review comments
-• Resolve any merge conflicts
+• At least one review required before merging X
+• Address review comments X
+• Resolve any merge conflicts X
 11.2.3 Documentation
 1. README.md
-• Project description
-• Installation instructions
-• Usage examples
-• Technologies used
+• Project description X
+• Installation instructions X
+• Usage examples X
+• Technologies used X
 2. CONTRIBUTIONS.md
-• List each team member
-• Detail specific contributions by each member
-• Link to PRs and issues handled by each member
+• List each team member X
+• Detail specific contributions by each member X
+• Link to PRs and issues handled by each member X
 3. Code Comments and Documentation
-• Include docstrings for all functions and classes
-• Add inline comments for complex logic
+• Include docstrings for all functions and classes X
+• Add inline comments for complex logic X
 11.3 Commit Guidelines
 1. Commit Message Format
-• Use descriptive commit messages
-• Format: [TYPE]: Brief description of changes
-• Types: FEAT, FIX, DOCS, STYLE, REFACTOR, TEST, CHORE
+• Use descriptive commit messages X
+• Format: [TYPE]: Brief description of changes X
+• Types: FEAT, FIX, DOCS, STYLE, REFACTOR, TEST, CHORE X
 2. Commit Frequency
-• Commit small, logical changes
-• Avoid combining unrelated changes in one commit
-• Commit often to show progress
+• Commit small, logical changes X
+• Avoid combining unrelated changes in one commit X
+• Commit often to show progress X
 3. Authorship
-• Use your real name and course email in Git config
-• Do not commit as another team member
+• Use your real name and course email in Git config X
+• Do not commit as another team member X
 9
 Python Web Scraping Midterm Project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 12 Continuous Project Guidelines (Midterm to Final)
 If your group chooses to extend the midterm project into a continuous project for the final exam,
 please follow these guidelines to ensure appropriate scope and evaluation.

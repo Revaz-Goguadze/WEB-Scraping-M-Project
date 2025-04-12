@@ -1,3 +1,13 @@
+## Robots.txt Policy
+
+- **Location:** `robots.txt` at the project root (served at the root URL of your website)
+- **Policy summary:**
+  - `User-agent: *` — Applies to all crawlers.
+  - `Disallow:` (empty) — No paths are disallowed; all URLs are allowed to be crawled.
+- **Policy intent:**
+  - Default open crawling policy (compliant with standard robots exclusion protocol).
+  - Update robots.txt if you need to block specific directories or paths from search engines/crawlers.s
+
 # Python Web Scraping Midterm Project Report
 
 ## Website Chosen
@@ -6,12 +16,12 @@ Our team selected **http://books.toscrape.com/**, an open sandbox site designed 
 
 ## Implementation Highlights
 
-We designed a modular scraping toolkit comprising:
+I designed a modular scraping toolkit comprising:
 - **Async HTTP collector** with error handling, headers, robots.txt compliance, and rate limiting.
 - **BeautifulSoup4 parser** employing multiple selection techniques and nested DOM traversal.
 - **Object-oriented models** (`Book`, `Category`) for data structure encapsulation.
 - **File handlers** saving & loading JSON, CSV, with error management.
-- **Analysis tools** providing per-category book counts, average pricing, and availability insights.
+- **Analysis tools** provisding per-category book counts, average pricing, and availability insights.
 - **Tkinter GUI** to visualize scraped books.
 - **Matplotlib plots** for category counts and price distributions.
 - **Unit tests** ensuring reliability of scraping, parsing, file I/O, and analysis functions.

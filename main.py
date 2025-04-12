@@ -7,6 +7,8 @@ Coordinates data collection, parsing, storage, and analysis.
 import os
 import sys
 import asyncio
+import logging
+
 from scraper.collector import Collector
 from scraper.async_collector import AsyncCollector
 from scraper.parser import Parser
@@ -16,6 +18,20 @@ from utils.analyzer import count_books_per_category, average_price_per_category,
 from urllib.parse import urljoin, urlparse  # Added import for urljoin and urlparse
 import os
 import os
+
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("scraper.log", mode='w'),
+        logging.StreamHandler() # Log to console as well
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
 
 async def async_scrape():
     base_url = "http://books.toscrape.com/"
