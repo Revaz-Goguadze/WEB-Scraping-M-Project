@@ -44,7 +44,7 @@ python gui.py
 **Run tests:**
 
 ```bash
-pytest tests/
+python3 -m unittest discover -s tests
 ```
 
 ## Project Structure
