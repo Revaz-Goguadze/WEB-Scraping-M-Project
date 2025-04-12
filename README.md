@@ -101,4 +101,3 @@ CONTRIBUTIONS.md
 - Enhance test coverage for edge cases.
 - Deployment via Docker for easier setup.
 
-- Extendable and ready for further development and deployment.

@@ -1,6 +1,6 @@
 """
 gui.py
-
+Modified GUI
 Simple Tkinter GUI to display scraped book data with matplotlib charts.
 """
 
