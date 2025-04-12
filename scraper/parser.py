@@ -89,3 +89,59 @@ class Parser:
             category_item = breadcrumb_items[-2]  # Second to last item
             return category_item.text.strip()
         return "All products"  # Fallback for malformed breadcrumbs
+
+    def get_title(self) -> str:
+        """
+        Extract the title of a single book.
+
+        Returns:
+            str: The book title or empty string if not found.
+        """
+        title_element = self.soup.find("h1") or self.soup.find("h3")
+        return ' '.join(title_element.text.strip().split()) if title_element else ""
+
+    def get_price(self) -> str:
+        """
+        Extract the price of a single book.
+
+        Returns:
+            str: The price text or empty string if not found.
+        """
+        price_element = self.soup.find(class_="price_color")
+        return price_element.text.strip() if price_element else ""
+
+    def get_availability(self) -> str:
+        """
+        Extract the availability status of a single book.
+
+        Returns:
+            str: The availability status or empty string if not found.
+        """
+        availability_element = self.soup.find(class_="availability")
+        return availability_element.text.strip() if availability_element else ""
+
+    def get_all_titles(self) -> List[str]:
+        """
+        Extract all book titles using CSS selectors. Handles both h3 > a and direct h3.
+
+        Returns:
+            List[str]: List of titles.
+        """
+        titles = []
+        # Prioritize 'h3 a[title]' as it's more specific on the target site
+        elements = self.soup.select("article.product_pod h3 a")
+        if not elements:
+            # Fallback to direct h3 if 'h3 a' isn't found (for test cases)
+            elements = self.soup.select("h3")
+
+        for element in elements:
+            # If it's an 'a' tag with a title attribute, use that
+            if element.name == 'a' and element.get("title"):
+                title = element.get("title", "").strip()
+            # Otherwise, use the text content, normalizing whitespace
+            else:
+                title = ' '.join(element.text.strip().split())
+
+            if title:
+                titles.append(title)
+        return titles
