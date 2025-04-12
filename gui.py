@@ -111,9 +111,15 @@ class ScraperGUI(tk.Tk):
             tree.column(col, anchor="center")
 
         for book in self.books:
+            # Ensure price is formatted even if loaded as a string
+            try:
+                price_val = float(book.price)
+                price_display = f"£{price_val:.2f}"
+            except (ValueError, TypeError):
+                price_display = f"{book.price}"
             tree.insert("", tk.END, values=(
                 book.title,
-                f"£{book.price:.2f}",
+                price_display,
                 book.category,
                 book.availability
             ))
@@ -156,15 +162,25 @@ class ScraperGUI(tk.Tk):
         fig, axs = plt.subplots(1, 2, figsize=(9, 4))
         fig.suptitle("Scraped Book Data Summary", fontsize=14)
 
+        # Process data for charts
+        count_categories = list(counts.keys())
+        count_values = list(counts.values())
+        price_categories = list(prices.keys())
+        price_values = list(prices.values())
+
         # Book count per category
-        axs[0].bar(list(counts.keys()), list(counts.values()), color="skyblue")
+        count_positions = range(len(count_categories))
+        axs[0].bar(count_positions, count_values, color="skyblue")
         axs[0].set_title("Books per Category")
-        axs[0].set_xticklabels(list(counts.keys()), rotation=45, ha='right')
+        axs[0].set_xticks(count_positions)  # Set tick positions first
+        axs[0].set_xticklabels(count_categories, rotation=45, ha='right')
 
         # Average price per category
-        axs[1].bar(list(prices.keys()), list(prices.values()), color="orange")
+        price_positions = range(len(price_categories))
+        axs[1].bar(price_positions, price_values, color="orange")
         axs[1].set_title("Average Price (£)")
-        axs[1].set_xticklabels(list(prices.keys()), rotation=45, ha='right')
+        axs[1].set_xticks(price_positions)  # Set tick positions first
+        axs[1].set_xticklabels(price_categories, rotation=45, ha='right')
 
         plt.tight_layout()
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
